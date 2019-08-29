@@ -119,7 +119,7 @@ read_commit_message() {
     [[ $REPLY =~ ^# ]]
     test $? -eq 0 || COMMIT_MSG_LINES+=("$REPLY")
 
-  done < <(cat $COMMIT_MSG_FILE)
+  done < $COMMIT_MSG_FILE
 }
 
 #
@@ -147,7 +147,7 @@ validate_commit_message() {
   else
     COMMIT_SUBJECT_TO_PROCESS=$COMMIT_SUBJECT
   fi
-    
+
   # 1. Separate subject from body with a blank line
   # ------------------------------------------------------------------------------
 
@@ -156,7 +156,7 @@ validate_commit_message() {
 
   # 2. Limit the subject line to configured number of characters
   # ------------------------------------------------------------------------------
-  
+
   subject_max_length=$(git config --get hooks.goodcommit.subjectmaxlength || echo '50')
 
   test "${#COMMIT_SUBJECT}" -le $subject_max_length
@@ -301,8 +301,8 @@ while true; do
   display_warnings
 
   # warnings as errors
-  warningsaserrors=$(git config --get hooks.goodcommit.warningsaserrors || echo 'false')  
-  if [ "$warningsaserrors" == "true" ]; then   
+  warningsaserrors=$(git config --get hooks.goodcommit.warningsaserrors || echo 'false')
+  if [ "$warningsaserrors" == "true" ]; then
     exit 1
   fi
 
